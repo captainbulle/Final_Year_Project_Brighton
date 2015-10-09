@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8"/>
+  <meta name="description" content="This website is a tool to create simple UML graphs"/>
+  <title>UCD - Jerome Radal Final Year Project</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/style.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="css/jqueryui.min.css" media="screen"/>
+  <!-- ExplorerCanvas brings canvas functionalities to Internet Explorer -->
+  <!--[if IE]><script src="excanvas.compiled.js"></script><![endif]-->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/jqueryui.min.js"></script>
+  <!-- CSS to indicate what will be sent to the printer -->
+  <style type="text/css" media="print">
+    #navbar,.page-header,.noprint,.footer{display:none;}
+    #canvas{display:block;}
+  </style>
+</head>
+<body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
+<div class="container">
+  <section id="navbar">
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container" style="width:auto;">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand">CoolUML</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                <li><a href="index.html">Home</a></li>
+				<li><a href="game.html">Game</a></li>
+                <li class="active"><a href="ucd.html">Use Case Diagram</a></li>
+            </ul>
+          </div><!-- /.nav-collapse -->
+        </div>
+      </div><!-- /navbar-inner -->
+    </div><!-- /navbar -->
+  </section>
+  <div class="page-header">
+    <h1>UCD box design</h1>
+  </div>
+  <p class="noprint pull-right" id="tools">
+    <a href="#" title="Clear" id="clear" data-delay-hide="100" data-placement="left" rel="popover" data-content="Click here for delete the form"><img src="img/delete.png" alt="delete"/></a><br/><br/>
+    <a href="#" title="Save your work" id="save" data-trigger="hover" data-delay-hide="100" data-placement="left" rel="popover" data-content="For saving your work, first click here. After, click right on the image in the new window and choose: 'Save image as...'"><img src="img/save.png" alt="save"/></a><br/><br/>
+    <a href="javascript:window.print()" title="Print the canvas" id="print"><img src="img/print.png" alt="print"/></a>
+  </p>
+  <canvas id="toolbox" class="noprint">
+    You have to upgrade your web browser if you want to see the content.
+  </canvas>
+  <canvas id="canvas">
+    You have to upgrade your web browser if you want to see the content.
+  </canvas>
+  <footer class="footer clearfix">
+    <p class="pull-right"><a href="#"><strong>Back to top</strong></a></p>
+  </footer>
+</div>
+<div id="dialog-pkg">
+  <p class="validateTips"></p>
+  <form>
+    <fieldset>
+      <label for="use1">Use case 1</label>
+      <select name="use1" id="use1" class="text ui-widget-content ui-corner-all">
+        <option value="none">No use case in the canvas</option>
+      </select>
+      <div id="more_case2"></div>
+    </fieldset>
+  </form>
+</div>
+<div id="dialog-line">
+  <p class="validateTips"></p>
+  <form>
+    <fieldset>
+      <label for="startform">Start form</label>
+      <select name="startform" id="startform" class="text ui-widget-content ui-corner-all">
+        <option value="none">No form in the canvas yet</option>
+      </select>
+      <label for="endform">End form</label>
+      <select name="endform" id="endform" class="text ui-widget-content ui-corner-all">
+        <option value="none">No form in the canvas yet</option>
+      </select>
+    </fieldset>
+  </form>
+</div>
+<div id="dialog-extends">
+  <p class="validateTips"></p>
+  <form>
+    <fieldset>
+      <label for="startformExtends">Start form</label>
+      <select name="startformExtends" id="startformExtends" class="text ui-widget-content ui-corner-all">
+        <option value="none">No form in the canvas yet</option>
+      </select>
+      <label for="endformExtends">End form</label>
+      <select name="endformExtends" id="endformExtends" class="text ui-widget-content ui-corner-all">
+        <option value="none">No form in the canvas yet</option>
+      </select>
+    </fieldset>
+  </form>
+</div>
+<div id="dialog-include">
+  <p class="validateTips"></p>
+  <form>
+    <fieldset>
+      <label for="startformInclude">Start form</label>
+      <select name="startformInclude" id="startformInclude" class="text ui-widget-content ui-corner-all">
+        <option value="none">No form in the canvas yet</option>
+      </select>
+      <label for="endformInclude">End form</label>
+      <select name="endformInclude" id="endformInclude" class="text ui-widget-content ui-corner-all">
+        <option value="none">No form in the canvas yet</option>
+      </select>
+    </fieldset>
+  </form>
+</div>
+<div style="display:none;">
+  <div id="actors_1"></div>
+  <input type="text" id="nbActor" value="0"/>
+  <div id="uses_1"></div>
+  <input type="text" id="nbUse" value="0"/>
+  <div id="lines_1"></div>
+  <input type="text" id="nbLines" value="0"/>
+  <div id="extends_1"></div>
+  <input type="text" id="nbExtends" value="0"/>
+  <div id="include_1"></div>
+  <input type="text" id="nbInclude" value="0"/>
+<div>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/class/actor.js"></script>
+<script type="text/javascript" src="js/class/lines.js"></script>
+<script type="text/javascript" src="js/class/usecase.js"></script>
+<script type="text/javascript" src="js/class/package.js"></script>
+<script type="text/javascript" src="js/ucd.js"></script>
+<script type="text/javascript">
+$('#save').popover('hide');
+
+/****************************************
+   To remove choices already selected
+*****************************************/
+
+document.getElementById('use1').onchange = function(){
+  var nbUse = $('#nbUse').val();
+  for(var i = 1; i <= nbUse; ++i){
+    if(!$('#use'+ i))
+      break;
+    for(var j = 1; j <= nbUse; ++j){
+      if($('#use'+ i +'_'+ j).val() == $(this).val())
+        $('#use'+ i +'_'+ j).hide();
+      else{
+        for(var k = 1; k <= nbUse; ++k){
+          if($('#use'+ k).val() == $('#use'+ i +'_'+ j).val())
+            $('#use'+ k +'_'+ j).hide();
+          else
+            $('#use'+ k +'_'+ j).show();
+        }
+      }
+    }
+  }
+}
+
+document.getElementById('startform').onchange = function(){
+  var nbActor = $('#nbActor').val();
+  for(var i = 1; i <= nbActor; ++i){
+    if($('#startform_'+ i).val() == $(this).val())
+      $('#startform_'+ i).hide();
+    else
+      $('#startform_'+ i).show();
+  }
+}
+document.getElementById('endform').onchange = function(){
+  var nbUse = $('#nbUse').val();
+  for(var i = 1; i <= nbUse; ++i){
+    if($('#endform_'+ i).val() == $(this).val())
+      $('#endform_'+ i).hide();
+    else
+      $('#endform_'+ i).show();
+  }
+}
+
+document.getElementById('startformExtends').onchange = function(){
+  var nbUse = $('#nbUse').val();
+  for(var i = 1; i <= nbUse; ++i){
+    if($('#startformExtends_'+ i).val() == $(this).val() || $('#startformExtends_'+ i).val() == $('#endformExtends').val()){
+      $('#startformExtends_'+ i).hide();
+      $('#endformExtends_'+ i).hide();
+    }else{
+      $('#startformExtends_'+ i).show();
+      $('#endformExtends_'+ i).show();
+    }
+  }
+}
+document.getElementById('endformExtends').onchange = function(){
+  var nbUse = $('#nbUse').val();
+  for(var i = 1; i <= nbUse; ++i){
+    if($('#endformExtends_'+ i).val() == $(this).val() || $('#endformExtends_'+ i).val() == $('#startformExtends').val()){
+      $('#endformExtends_'+ i).hide();
+      $('#startformExtends_'+ i).hide();
+    }else{
+      $('#endformExtends_'+ i).show();
+      $('#startformExtends_'+ i).show();
+    }
+  }
+}
+
+document.getElementById('startformInclude').onchange = function(){
+  var nbUse = $('#nbUse').val();
+  for(var i = 1; i <= nbUse; ++i){
+    if($('#startformInclude_'+ i).val() == $(this).val() || $('#startformInclude_'+ i).val() == $('#endformInclude').val()){
+      $('#startformInclude_'+ i).hide();
+      $('#endformInclude_'+ i).hide();
+    }else{
+      $('#startformInclude_'+ i).show();
+      $('#endformInclude_'+ i).show();
+    }
+  }
+}
+document.getElementById('endformInclude').onchange = function(){
+  var nbUse = $('#nbUse').val();
+  for(var i = 1; i <= nbUse; ++i){
+    if($('#endformInclude_'+ i).val() == $(this).val() || $('#endformInclude_'+ i).val() == $('#startformInclude').val()){
+      $('#endformInclude_'+ i).hide();
+      $('#startformInclude_'+ i).hide();
+    }else{
+      $('#endformInclude_'+ i).show();
+      $('#startformInclude_'+ i).show();
+    }
+  }
+}
+</script>
+</body>
+</html>
